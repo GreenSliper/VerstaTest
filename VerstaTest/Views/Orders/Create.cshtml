@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Create Order";
+}
+
+@model VerstaTest.Models.Order
+
+<h1 class="display-5">Create new order</h1>
+<br>
+<form method="post" asp-controller="Orders" asp-action="Create" asp-validation-summary="All">
+    <div class="order-box">
+        @{
+            await Html.RenderPartialAsync("_OrderForm", Model);
+        }
+
+        <br /><br />
+        <div style="text-align:center">
+            <input type="submit" value="Create new order" class="display-6">
+        </div>
+    </div>
+</form>

@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Order List";
+}
+
+@model IEnumerable<Order>
+
+<h1 class="display-5">All orders</h1>
+<br />
+@if (Model == null || Model.Count() == 0)
+{
+    <h1 class="display-6">No orders yet!</h1>
+}
+else
+    @foreach (var or in Model)
+    {
+        <div class="order-box">
+            <form method="post" class="top-button-container">
+                <button class="invert-button delete-button pull-right" asp-controller="Orders" asp-action="Delete" asp-route-id="@or.Id"></button>
+                <button class="invert-button edit-button" asp-controller="Orders" asp-action="Edit" asp-route-id="@or.Id"></button>
+            </form>
+            <h1 class="display-6 font-weight-normal" style="text-align:center">Order #@or.Id</h1>
+            @if (or.ReceiveDate < DateTime.Now.Date)
+            {
+                <h1 class="display-8 font-weight-normal" style="color:red;">Expired</h1>
+            }
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.SenderCity)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.SenderCity)</p>
+
+            <br />
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.SenderAddress)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.SenderAddress)</p>
+
+            <br />
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.ReceiverCity)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.ReceiverCity)</p>
+
+            <br />
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.ReceiverAddress)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.ReceiverAddress)</p>
+
+            <br />
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.PackageWeight)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.PackageWeight)</p>
+
+            <br />
+            <strong><label class="display-7 font-weight-bold">@Html.DisplayNameFor(x => x.ReceiveDate)</label></strong><br />
+            <p class="display-7 city-field" style="width:100%">@Html.DisplayFor(x => or.ReceiveDate)</p>
+        </div>
+        <br />
+        <br />
+    }
