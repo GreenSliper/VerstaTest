@@ -1,0 +1,10 @@
+﻿@{
+    ViewData["Title"] = "OOPS!";
+}
+
+<h1 class="display-5">Sorry, something went wrong!</h1>
+<h1 class="display-6" style="margin-left:10%;">@ViewData["ErrorText"]</h1>
+<h3 class="display-8">What's next?</h3>
+<a class="big-ref" asp-area="" asp-controller="Home" asp-action="CreateOrder"><h1 class="display-7">Create another order</h1></a>
+<a class="big-ref" asp-area="" asp-controller="Home" asp-action="OrderList"><h1 class="display-7">View order list</h1></a>
+<a class="big-ref" asp-area="" asp-controller="Home" asp-action="Index"><h1 class="display-7">Home page</h1></a>

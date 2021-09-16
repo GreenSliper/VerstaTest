@@ -1,0 +1,42 @@
+﻿@model VerstaTest.Models.Order
+
+<h1 class="display-6" style="text-align:center">Fill order form</h1>
+<strong><label class="display-7" asp-for="SenderCity"></label></strong>
+<br />
+<input type="text" class="display-7 city-field" placeholder="Sender city" maxlength="50" style="width:100%" asp-for="SenderCity">
+<span class="display-7" style="color:red;" asp-validation-for="SenderCity"></span>
+
+<br />
+<br />
+<strong><label class="display-7" asp-for="SenderAddress">Sender address</label></strong>
+<br />
+<textarea type="text" class="display-7 address-field" placeholder="Sender address" rows="2" maxlength="150" style="width:100%" asp-for="SenderAddress"></textarea>
+<span class="display-7" style="color:red;" asp-validation-for="SenderAddress"></span>
+
+<br />
+<br />
+<strong><label class="display-7" asp-for="ReceiverCity"></label></strong>
+<br />
+<input type="text" class="display-7 city-field" placeholder="Receiver city" maxlength="50" style="width:100%" asp-for="ReceiverCity">
+<span class="display-7" style="color:red;" asp-validation-for="ReceiverCity"></span>
+
+<br />
+<br />
+<strong><label class="display-7" asp-for="ReceiverAddress"></label></strong>
+<br />
+<textarea type="text" class="display-7 address-field" placeholder="Receiver address" rows="2" maxlength="150" style="width:100%" asp-for="ReceiverAddress"></textarea>
+<span class="display-7" style="color:red;" asp-validation-for="ReceiverAddress"></span>
+
+<br />
+<br />
+<strong><label class="display-7" asp-for="PackageWeight"></label></strong>
+<br />
+<input class="display-7" placeholder="kilograms" maxlength="150" style="width:100%" min="0.01" max="1000" asp-for="PackageWeight">
+<span class="display-7" style="color:red;" asp-validation-for="PackageWeight"></span>
+
+<br />
+<br />
+<strong><label class="display-7" asp-for="ReceiveDate"></label></strong>
+<br />
+<input type="date" class="display-7" asp-for="ReceiveDate"><br />
+<span class="display-7" style="color:red;" asp-validation-for="ReceiveDate"></span>
