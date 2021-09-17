@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using VerstaTest.Models.DTOEntities;
 
 #nullable disable
 
@@ -17,13 +18,13 @@ namespace VerstaTest.Models
         {
         }
 
-        public virtual DbSet<Order> Orders { get; set; }
+        public virtual DbSet<OrderDTO> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Russian_Russia.1251");
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<OrderDTO>(entity =>
             {
                 entity.ToTable("orders");
 

@@ -2,13 +2,12 @@
     ViewData["Title"] = "Edit Order";
 }
 
-@model VerstaTest.Models.Order
+@model VerstaTest.Models.Entities.Order
 
 <h1 class="display-5">Edit order #@Model.Id</h1>
 <br>
 <form method="post" asp-controller="Orders" asp-action="EditConfirmed" asp-validation-summary="All">
     <div class="order-box">
-        @Html.HiddenFor(model => model.CreationTime)
         @Html.HiddenFor(model => model.Id)
         @{
             await Html.RenderPartialAsync("_OrderForm", Model);

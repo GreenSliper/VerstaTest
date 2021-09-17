@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-#nullable disable
-
-namespace VerstaTest.Models
+namespace VerstaTest.Models.Entities
 {
-    public partial class Order : IValidatableObject
+	public class Order : IValidatableObject
     {
         public int Id { get; set; }
 
@@ -41,7 +40,6 @@ namespace VerstaTest.Models
         [Display(Name = "Receive date")]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Receive date must be assigned")]
         public DateTime? ReceiveDate { get; set; }
-        public DateTime? CreationTime { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

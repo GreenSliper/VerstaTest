@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using VerstaTest.Models;
+using VerstaTest.Models.DTOEntities;
+using VerstaTest.Models.Entities;
 using VerstaTest.Models.Validation;
+using VerstaTest.Repository;
+using VerstaTest.Services;
 
 namespace VerstaTest.Controllers
 {
     public class OrdersController : Controller
     {
-        private readonly versta_testContext _context;
-        private readonly IFieldRevalidator<decimal> _decimalRevalidator;
-        public OrdersController(versta_testContext context, IFieldRevalidator<decimal> decimalRevalidator)
+        private readonly IOrderService orderService;
+        public OrdersController(IOrderService orderService)
         {
-            _context = context;
-            _decimalRevalidator = decimalRevalidator;
+            this.orderService = orderService;
         }
 
         public IActionResult CreateOrder()
@@ -28,25 +29,7 @@ namespace VerstaTest.Controllers
 
         public async Task<IActionResult> OrderList()
         {
-            return View("OrderList", await (from or in _context.Orders orderby or.CreationTime descending select or).ToListAsync());
-        }
-
-        // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
+            return View("OrderList", await orderService.GetOrders());
         }
 
         // GET: Orders/Create
@@ -59,7 +42,7 @@ namespace VerstaTest.Controllers
         {
             if (id != null)
             {
-                Order order = await _context.Orders.FirstOrDefaultAsync(or => or.Id == id);
+                Order order = await orderService.GetOrder(id.Value);
                 if (order != null)
                     return View(order);
             }
@@ -70,50 +53,28 @@ namespace VerstaTest.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditConfirmed(Order order)
         {
-            if (ModelState.IsValid ||
-                _decimalRevalidator.TryReValidateField(ModelState, order, "PackageWeight",
-                    (ord, packW) => ord.PackageWeight = packW, this))
-            {
-                _context.Orders.Update(order);
-                await _context.SaveChangesAsync();
+            if(await orderService.UpdateOrder(order, ModelState, this)){
                 return RedirectToAction("OrderList");
             }
             return View("Edit", order);
         }
 
-        // POST: Orders/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,SenderCity,SenderAddress,ReceiverCity,ReceiverAddress,PackageWeight,ReceiveDate,CreationTime")]
             Order order)
         {
-            if (ModelState.IsValid || 
-                _decimalRevalidator.TryReValidateField(ModelState, order, "PackageWeight",
-                    (ord, packW) => ord.PackageWeight = packW, this))
+            if (await orderService.InsertOrder(order, ModelState, this))
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
                 return View("OrderCreated");
             }
             return View();
         }
 
-        // GET: Orders/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
+            if (id == null || !await orderService.DeleteOrder(id.Value))
                 return NotFound();
-            }
-
-            var order = await _context.Orders
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            _context.Remove(order);
-            await _context.SaveChangesAsync();
             return RedirectToAction("OrderList");
         }
     }

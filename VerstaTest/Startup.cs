@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,7 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VerstaTest.Models;
+using VerstaTest.Models.DTOEntities;
+using VerstaTest.Models.Mapping;
 using VerstaTest.Models.Validation;
+using VerstaTest.Repository;
+using VerstaTest.Services;
 
 namespace VerstaTest
 {
@@ -29,6 +35,15 @@ namespace VerstaTest
 			string connection = Configuration.GetConnectionString("versa_test_DB");
 			services.AddDbContext<Models.versta_testContext>(options=>options.UseNpgsql(connection));
 			services.AddSingleton<IFieldRevalidator<decimal>, DecimalReValidator>();
+			services.AddTransient<IOrderService, OrderService>();
+			services.AddTransient<IDbCRUDRepository<OrderDTO>, DbCRUDRepository<versta_testContext, OrderDTO>>();
+			//auto-mapping
+			var mapperConfig = new MapperConfiguration(mc =>
+			{
+				mc.AddProfile(new MappingProfile());
+			});
+			IMapper mapper = mapperConfig.CreateMapper();
+			services.AddSingleton(mapper);
 			services.AddControllersWithViews();
 		}
 
