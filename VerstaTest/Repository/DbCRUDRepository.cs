@@ -51,6 +51,7 @@ namespace VerstaTest.Repository
 		{
 			CheckNull(entity);
 			await entities.AddAsync(entity);
+			await SaveChanges();
 		}
 
 		public async Task Delete(ModelT entity)

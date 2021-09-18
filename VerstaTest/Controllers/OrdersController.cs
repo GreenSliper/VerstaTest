@@ -61,8 +61,7 @@ namespace VerstaTest.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,SenderCity,SenderAddress,ReceiverCity,ReceiverAddress,PackageWeight,ReceiveDate,CreationTime")]
-            Order order)
+        public async Task<IActionResult> Create([FromForm] Order order)
         {
             if (await orderService.InsertOrder(order, ModelState, this))
             {

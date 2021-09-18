@@ -34,7 +34,7 @@ namespace VerstaTest.Services
 		}
 		public async Task<List<Order>> GetOrders()
 		{
-			return (await repository.GetAll()).Select(x=>mapper.Map<Order>(x)).ToList();
+			return (await repository.GetAll()).OrderByDescending(x=>x.CreationTime).Select(x=>mapper.Map<Order>(x)).ToList();
 		}
 		public async Task<Order> GetOrder(int id)
 		{
